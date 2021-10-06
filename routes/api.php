@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PoolingController;
+use App\Http\Controllers\MinarateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,7 @@ use App\Http\Controllers\PoolingController;
 |
 */
 
+//create initial blockchain genesis
 Route::get('/create-initial-block-chain', [PoolingController::class, 'createInicialBlockChain']);
+
+Route::get('/minerate', [MinarateController::class, 'getWeaponsToMine']);
