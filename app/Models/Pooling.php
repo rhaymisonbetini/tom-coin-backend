@@ -11,6 +11,6 @@ class Pooling extends Model
 
     public function transactions()
     {
-        return $this->belongsTo(Transaction::class, 'transaction_id', 'id');
+        return $this->belongsTo(Transactions::class, 'transaction_id', 'id');
     }
 }
