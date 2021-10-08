@@ -3,45 +3,70 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
+use App\Repositories\PoolingRepository;
+use App\Repositories\TomCoinHistoryRepository;
+use App\Repositories\WalletRepository;
+use App\Services\PoolingService;
+use App\Services\PythonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class MinarateController extends Controller
 {
-    /**
-     * @var string
-     */
-    protected $getChain = 'http://127.0.0.1:5000/get_chain';
-    /**
-     * @var string
-     */
-    protected $createNewBlock = 'http://127.0.0.1:5000/create-new-block';
 
-    public function getWeaponsToMine()
+    private $walletRepository;
+    private $poolingRepository;
+    private $tomCoinHistoryRepository;
+    private $pythonService;
+    private $poolingService;
+
+    public function __construct(
+        WalletRepository $walletRepository,
+        PoolingRepository $poolingRepository,
+        TomCoinHistoryRepository $tomCoinHistoryRepository,
+        PythonService $pythonService,
+        PoolingService $poolingService,
+    ) {
+        $this->walletRepository = $walletRepository;
+        $this->poolingRepository = $poolingRepository;
+        $this->tomCoinHistoryRepository = $tomCoinHistoryRepository;
+        $this->pythonService = $pythonService;
+        $this->poolingService = $poolingService;
+    }
+
+   
+    public function createNewBlock()
     {
         try {
-            $blockChain = Http::get($this->getChain);
-            $blockChain = $blockChain->json();
-            $lastBlock =  end($blockChain['chain'])['proof'];
-            return response()->json($lastBlock, 200);
+
+            $wallet = Wallet::inRandomOrder()->first()->public_key;
+            $response =  Http::post($this->pythonService->createNewBlock(), [
+                'USER_EDDEN' => $wallet
+            ]);
+
+            if ($response->status() == 201) {
+                $this->poolingService->populateBlockChain();
+                $this->walletRepository->updateUserMinerate($wallet);
+                $response = $this->calculateActualValue($wallet);
+                return response()->json($response, 200);
+            }else{
+                return response()->json('Erro_block_chain_minerate', $response->status());
+            }
+
         } catch (\Exception $e) {
             return response()->json($e, 400);
         }
     }
 
-    public function createNewBlock($newProof)
+    public function calculateActualValue($wallet): array
     {
-        try {
-            $user = Wallet::inRandomOrder()->first()->public_key;
-            $response =  Http::post($this->createNewBlock, [
-                'new_prof' => $newProof,
-                'USER_EDDEN' => $user
-            ]);
-            $responseBlockChain =  $response->json();
-            return response()->json($responseBlockChain, 200);
+        $lastValue = $this->tomCoinHistoryRepository->lastValue();
+        $userWallet = $this->walletRepository->getUserCashByPublicKey($wallet);
+        $response = [
+            'user_valuer' =>  $userWallet * $lastValue,
+            'tom_coin_cotation' => $lastValue
+        ];
 
-        } catch (\Exception $e) {
-            return response()->json($e, 400);
-        }
+        return $response;
     }
 }

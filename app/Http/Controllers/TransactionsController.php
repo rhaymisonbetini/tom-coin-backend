@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\TransactionsRepository;
 use Illuminate\Http\Request;
-use TransactionsRepository;
 
 class TransactionsController extends Controller
 {

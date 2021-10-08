@@ -19,5 +19,4 @@ use App\Http\Controllers\MinarateController;
 //create initial blockchain genesis
 Route::get('/create-initial-block-chain', [PoolingController::class, 'createInicialBlockChain']);
 
-Route::get('/minerate', [MinarateController::class, 'getWeaponsToMine']);
-Route::get('/create-new-block/{newProof}', [MinarateController::class, 'createNewBlock']);
+Route::get('/create-block', [MinarateController::class, 'createNewBlock']);

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\TomCoinHistoryRepository;
 use Illuminate\Http\Request;
-use TomCoinHistoryRepository;
 
 class TomCoinHistoryController extends Controller
 {

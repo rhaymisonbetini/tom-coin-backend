@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\PoolingRepository;
+use App\Services\PoolingService;
 
 class PoolingController extends Controller
 {
-    protected $PoolingRepository;
+    protected $poolingService;
 
-    public function __construct(PoolingRepository $PoolingRepository)
+    public function __construct(PoolingService $poolingService)
     {
-        $this->PoolingRepository = $PoolingRepository;
+        $this->poolingService = $poolingService;
     }
 
 
     public function createInicialBlockChain()
     {
         try {
-            $blockChain = $this->PoolingRepository->createBlockChainByPooling();
+            $blockChain = $this->poolingService->createBlockChainByPooling();
             return response()->json($blockChain, 200);
         } catch (\Exception $e) {
             return response()->json($e, 400);
