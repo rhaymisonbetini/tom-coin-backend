@@ -9,6 +9,9 @@ class TransactionsRepository
 
     public function getUserTransactions($userId): mixed
     {
-        return Transactions::where('to_user', $userId)->orWhere('from_user', $userId)->get();
+        return Transactions::where('to_user', $userId)
+            ->orWhere('from_user', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

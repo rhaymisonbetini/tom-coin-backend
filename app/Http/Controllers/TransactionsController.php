@@ -43,9 +43,10 @@ class TransactionsController extends Controller
 
             foreach ($transactions as $transaction) {
                 array_push($arrayTransactions, [
-                    'from' => $transaction->fromUser->wallets->public_key,
-                    'to' => $transaction->toUser->wallets->public_key,
-                    'cash' => $transaction->cash
+                    'from' => substr($transaction->fromUser->wallets->public_key, 0, 50) . '...',
+                    'to' => substr($transaction->toUser->wallets->public_key, 0, 50) . '...',
+                    'cash' => $transaction->cash,
+                    'date' => date_format($transaction->created_at, 'd-m-Y H:i:s')
                 ]);
             }
 
