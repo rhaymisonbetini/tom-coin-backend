@@ -17,6 +17,23 @@ class UserSeed extends Seeder
      */
     public function run()
     {
+
+
+        $me = new User();
+        $me->name = 'rhaymison';
+        $me->email = 'rhaymison.cav@gmail.com';
+        $me->password =  Hash::make('123456');
+        $me->save();
+
+        $wallet = new Wallet();
+        $privateKey = hash('sha256', Str::random(10));
+        $publicKey  = hash('sha256', $privateKey);
+        $wallet->id_user = $me->id;
+        $wallet->private_key = $privateKey;
+        $wallet->public_key = $publicKey;
+        $wallet->cash = mt_rand(1, 100);
+        $wallet->save();
+
         for ($i = 0; $i < 20; $i++) {
             $user = new User();
             $user->name = Str::random(10);

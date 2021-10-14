@@ -35,6 +35,11 @@ class MinarateController extends Controller
     }
 
    
+     /**
+     * return error response.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function createNewBlock()
     {
         try {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PoolingController;
@@ -19,4 +20,10 @@ use App\Http\Controllers\MinarateController;
 //create initial blockchain genesis
 Route::get('/create-initial-block-chain', [PoolingController::class, 'createInicialBlockChain']);
 
-Route::get('/create-block', [MinarateController::class, 'createNewBlock']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+   Route::post('logout',[AuthController::class, 'logout']);
+    Route::get('/create-block', [MinarateController::class, 'createNewBlock']);
+});
+

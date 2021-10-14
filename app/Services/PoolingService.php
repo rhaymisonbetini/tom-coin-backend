@@ -20,7 +20,7 @@ class PoolingService
     }
 
 
-    public function createBlockChainByPooling()
+    public function createBlockChainByPooling(): string
     {
 
         $pooling = $this->poolingRepository->takeFiveTransactions($this->totalTransactionInBlock);

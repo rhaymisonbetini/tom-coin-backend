@@ -16,6 +16,11 @@ class PoolingController extends Controller
     }
 
 
+     /**
+     * return error response.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function createInicialBlockChain()
     {
         try {
