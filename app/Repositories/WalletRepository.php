@@ -13,6 +13,11 @@ class WalletRepository
         $this->tomCoinHistoryRepository = $tomCoinHistoryRepository;
     }
 
+    public function getUserWallet($userId): mixed
+    {
+        return Wallet::where('id_user', $userId)->firstOrFail();
+    }
+
     public function updateUserMinerate($wallet): mixed
     {
         $actualValue =  Wallet::where('public_key', $wallet)->first()->cash;
