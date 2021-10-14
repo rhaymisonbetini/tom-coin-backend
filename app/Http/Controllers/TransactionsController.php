@@ -36,9 +36,20 @@ class TransactionsController extends Controller
             }
             $transactions = $this->transactionsRepository->getUserTransactions($user->id);
             if ($transactions) {
-                $transactions->load('toUser', 'fromUser');
+                $transactions->load('toUser', 'toUser.wallets', 'fromUser', 'fromUser.wallets');
             }
-            return  response()->json($transactions, 200);
+
+            (array) $arrayTransactions = [];
+
+            foreach ($transactions as $transaction) {
+                array_push($arrayTransactions, [
+                    'from' => $transaction->fromUser->wallets->public_key,
+                    'to' => $transaction->toUser->wallets->public_key,
+                    'cash' => $transaction->cash
+                ]);
+            }
+
+            return  response()->json($arrayTransactions, 200);
         } catch (\Exception $e) {
             return response()->json($e, 400);
         }
