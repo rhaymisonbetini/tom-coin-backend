@@ -39,4 +39,10 @@ class WalletRepository
         $actualValue =  Wallet::where('id_user', $user)->first()->cash;
         Wallet::where('id_user', $user)->update(['cash' => $cash + $actualValue]);
     }
+
+    public function lessCashAfterTransfer($public_key, $cash): void
+    {
+        $actualValue =  Wallet::where('public_key', $public_key)->first()->cash;
+        Wallet::where('public_key', $public_key)->update(['cash' => $actualValue - $cash]);
+    }
 }

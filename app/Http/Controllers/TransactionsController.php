@@ -75,13 +75,14 @@ class TransactionsController extends Controller
     {
         try {
             $user = $this->userRepository->getUserByEmail($request->email);
-            $toWallet = $this->walletRepository->getWalletByPublicKey($request->from_key);
+            $toWallet = $this->walletRepository->getWalletByPublicKey($request->to_key);
             if ($user->wallets->public_key ==  hash('sha256', $user->wallets->private_key) || !$toWallet) {
                 $transaction = $this->transactionsRepository->createTransaction($user->id, $toWallet->user->id, $request->cash);
                 $this->walletRepository->updateUserWalletTransfer($toWallet->user->id, $request->cash);
+                $this->walletRepository->lessCashAfterTransfer($user->wallets->public_key, $request->cash);
                 $this->pollingRepository->createPooling($transaction->id);
                 $this->poolingService->populateBlockChain();
-                return response()->json(['message' => 'TRANSACTION_SUCCESS'], 201);
+                return response()->json('TRANSACTION_SUCCESS', 201);
             } else {
                 return response()->json(['message' => 'UNAUTHORIZED'], 401);
             }
