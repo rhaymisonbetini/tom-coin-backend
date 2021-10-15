@@ -28,8 +28,9 @@ class WalletService
         (float) $userValue = $userWallet * $lastValue;
         (array)  $response = [
             'user_valuer' =>  $userValue,
-            'tom_coin_cotation' => $lastValue,
-            'formated_value' => 'R$ ' . number_format($userValue, 2, ",", ".")
+            'tom_coin_cotation' => 'R$ ' . number_format($lastValue, 2, ",", "."),
+            'formated_value' => 'R$ ' . number_format($userValue, 2, ",", "."),
+            'user_tom_coin' => $userWallet
         ];
         return $response;
     }

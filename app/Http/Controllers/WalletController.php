@@ -24,7 +24,7 @@ class WalletController extends Controller
     }
 
     /**
-     * return error response.
+    * return response.
      *
      * @return \Illuminate\Http\Response
      */

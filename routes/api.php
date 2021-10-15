@@ -29,5 +29,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('user-wallet-information/{email}', [WalletController::class, 'userWallet']);
     Route::get('transactions/{email}', [TransactionsController::class, 'userTransactions']);
     Route::get('/create-block', [MinarateController::class, 'createNewBlock']);
+    Route::get('/blockchain', [MinarateController::class, 'getBlockChainInformations']);
 });
 

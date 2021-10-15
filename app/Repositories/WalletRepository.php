@@ -21,7 +21,7 @@ class WalletRepository
     public function updateUserMinerate($wallet): mixed
     {
         $actualValue =  Wallet::where('public_key', $wallet)->first()->cash;
-        return Wallet::where('public_key', $wallet)->update(['cash' => $this->tomCoinHistoryRepository->lastValue() + $actualValue]);
+        return Wallet::where('public_key', $wallet)->update(['cash' => 1 + $actualValue]);
     }
 
     public function getUserCashByPublicKey($wallet): float
