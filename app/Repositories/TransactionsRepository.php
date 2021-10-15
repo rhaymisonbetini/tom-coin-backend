@@ -14,4 +14,14 @@ class TransactionsRepository
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    public function createTransaction($from, $to, $cash): mixed
+    {
+        $transaction = new Transactions();
+        $transaction->from_user = $from;
+        $transaction->to_user = $to;
+        $transaction->cash = $cash;
+        $transaction->save();
+        return $transaction;
+    }
 }

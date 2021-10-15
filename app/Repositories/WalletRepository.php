@@ -28,4 +28,15 @@ class WalletRepository
     {
         return Wallet::where('public_key', $wallet)->first()->cash;
     }
+
+    public function getWalletByPublicKey($publicKey): mixed
+    {
+        return Wallet::where('public_key', $publicKey)->first();
+    }
+
+    public function updateUserWalletTransfer($user, $cash): void
+    {
+        $actualValue =  Wallet::where('id_user', $user)->first()->cash;
+        Wallet::where('id_user', $user)->update(['cash' => $cash + $actualValue]);
+    }
 }
