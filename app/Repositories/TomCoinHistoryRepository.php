@@ -11,4 +11,9 @@ class TomCoinHistoryRepository
     {
         return TomCoinHistory::orderBy('id', 'desc')->first()->cash;
     }
+
+    public function getTomCoinCotationHistory(): mixed
+    {
+        return TomCoinHistory::orderBy('id', 'asc')->get();
+    }
 }

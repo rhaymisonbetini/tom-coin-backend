@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PoolingController;
 use App\Http\Controllers\MinarateController;
+use App\Http\Controllers\TomCoinHistoryController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\WalletController;
 
@@ -32,3 +33,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/create-block', [MinarateController::class, 'createNewBlock']);
     Route::get('/blockchain', [MinarateController::class, 'getBlockChainInformations']);
 });
+
+Route::get('machine-learning', [TomCoinHistoryController::class, 'MachineTomPredict']);
