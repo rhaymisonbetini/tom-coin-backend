@@ -18,7 +18,14 @@ class MachineLearningService
         $targets = $fomatedDate[1];
         $regression->train($samples, $targets);
         $result = $regression->predict($fiveDays[0]);
-        return $result;
+
+        (array) $response = [];
+
+        for ($i = 0; $i < count($result); $i++) {
+            array_push($response, ['date' => $fiveDays[1][$i], 'valuation' => (float)$result[$i]]);
+        }
+
+        return $response;
     }
 
     public function dateToMilliseconds($tomCoinHistory): array
@@ -43,7 +50,7 @@ class MachineLearningService
         (array) $fiveDaysLater = [];
         (array) $days = [];
         $actualDay = date("Y-m-d H:i:s");
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             array_push($fiveDaysLater, $this->toTime(date("Y-m-d", strtotime($actualDay . "+" . $i . " days"))));
             array_push($days, date("d-m-Y", strtotime($actualDay . "+" . $i . " days")));
         }

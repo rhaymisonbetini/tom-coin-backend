@@ -21,7 +21,7 @@ class HistorySeed extends Seeder
 
         for ($i = 1; $i < $diference + 1; $i++) {
             $tomCoinHistory = new TomCoinHistory();
-            $tomCoinHistory->cash = mt_rand(1, 2);
+            $tomCoinHistory->cash = mt_rand(10, 30) / mt_rand(1, 5);
             $tomCoinHistory->date = $i . '/10' . '/2021';
             $tomCoinHistory->created_at = Carbon::parse('2021-10-' . $i);
             $tomCoinHistory->save();

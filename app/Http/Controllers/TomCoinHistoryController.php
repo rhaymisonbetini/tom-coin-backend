@@ -19,6 +19,22 @@ class TomCoinHistoryController extends Controller
         $this->machineLearningService = $machineLearningService;
     }
 
+
+    /**
+     * return response.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tomCoinHistory()
+    {
+        try {
+            $tomCoinHistory = $this->tomCoinHistoryRepository->getTomCoinCotationHistory();
+            return response()->json($tomCoinHistory, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(),400);
+        }
+    }
+
     /**
      * return response.
      *
@@ -26,14 +42,11 @@ class TomCoinHistoryController extends Controller
      */
     public function MachineTomPredict()
     {
-
         try {
-
             $tomCoinHistory = $this->tomCoinHistoryRepository->getTomCoinCotationHistory();
             $predictions = $this->machineLearningService->predictTomCoinCotation($tomCoinHistory);
             return response()->json($predictions, 200);
         } catch (\Exception $e) {
-            \Log::alert($e);
             return response()->json($e, 400);
         }
     }

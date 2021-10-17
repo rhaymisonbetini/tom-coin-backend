@@ -32,6 +32,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('transaction', [TransactionsController::class, 'transactions']);
     Route::get('/create-block', [MinarateController::class, 'createNewBlock']);
     Route::get('/blockchain', [MinarateController::class, 'getBlockChainInformations']);
+    Route::get('machine-learning', [TomCoinHistoryController::class, 'MachineTomPredict']);
+    Route::get('tom-coin-history', [TomCoinHistoryController::class, 'tomCoinHistory']);
 });
-
-Route::get('machine-learning', [TomCoinHistoryController::class, 'MachineTomPredict']);
